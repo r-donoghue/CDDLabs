@@ -2,6 +2,18 @@
 #include <iostream>
 #include <thread>
 
+/*! 
+Author: Ryan Donoghue
+Date created: 10/02/17
+
+
+\class signal
+\brief A Mutual Exclusion Implementation using Semamphores
+
+Uses C++11 features such as mutex and condition variables to implement Semaphore
+
+*/
+
  int count = 0;
 
 void taskOne(std::shared_ptr<Semaphore> a, std::shared_ptr<Semaphore> b){
@@ -22,9 +34,6 @@ int main(void){
   std::thread threadOne, threadTwo;
   std::shared_ptr<Semaphore> a( new Semaphore);
   std::shared_ptr<Semaphore> b( new Semaphore);
-  
-
- 
 
   /**< Launch the threads  */
 

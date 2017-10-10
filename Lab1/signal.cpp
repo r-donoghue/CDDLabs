@@ -1,6 +1,17 @@
 #include "Semaphore.cpp"
 #include <iostream>
 #include <thread>
+/*! 
+Author: Ryan Donoghue
+Date created: 10/02/17
+
+
+\class signal
+\brief A Semaphore Implementation
+
+Uses C++11 features such as mutex and condition variables to implement Semaphore
+
+*/
 
 void taskOne(std::shared_ptr<Semaphore> theSemaphore){
   std::cout <<"I ";

@@ -2,18 +2,30 @@
 #include <iostream>
 #include <thread>
 
+/*! 
+Author: Ryan Donoghue
+Date created: 10/02/17
+
+
+\class signal
+\brief A Rendezvous Implementation using Semaphores
+
+Uses C++11 features such as mutex and condition variables to implement Semaphore
+
+*/
+
 void taskOne(std::shared_ptr<Semaphore> aArrived, std::shared_ptr<Semaphore> bArrived){
-  std::cout << "A1\n";
+  std::cout << "A1 Signal\n";
   aArrived->Signal();
   bArrived->Wait();
-  std::cout <<"A2\n";
+  std::cout <<"A2 Signal\n";
 }
 void taskTwo(std::shared_ptr<Semaphore> aArrived, std::shared_ptr<Semaphore> bArrived){
 
-  std::cout <<"B1\n";
+  std::cout <<"B1 Signal\n";
   bArrived->Signal();
   aArrived->Wait();
-  std::cout <<"B2\n";
+  std::cout <<"B2 Signal\n";
 }
 
 int main(void){
