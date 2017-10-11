@@ -1,13 +1,16 @@
-EXE = mutual.o
 CC = g++
-CFLAGS = -std=c++11 -pthread -o
-DEBUGFLAG = -g -std=c++11 -pthread -o
+CFLAGS = -std=c++11 -pthread
 HFILES= semaphore.h
-CFILES = mutual.cpp
+CFILES = semaphore.cpp signal.cpp
 
-all:
-	$(CC) $(CFLAGS) $(EXE) $(CFILES)
-clean:
+%.o: %.cpp
+	$(CC) -c -o $@ $< $(CFLAGS) $(DEBUGFLAGS)
+
+ALL: mutual.o
+	$(CC) -o mutual mutual.o $(CFLAGS) $(DEBUGFLAGS)
+
+DEBUG: DEBUGFLAGS = -DDEBUG
+DEBUG: ALL
+
+CLEAN:
 	rm *.o
-debug:
-	$(CC) $(DEBUGFLAG) $(EXE) $(CFILES)

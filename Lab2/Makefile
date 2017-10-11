@@ -1,13 +1,16 @@
-EXE = rend.o
 CC = g++
-CFLAGS = -std=c++11 -pthread -o
-DEBUGFLAG = -g -std=c++11 -pthread -o
+CFLAGS = -std=c++11 -pthread
 HFILES= semaphore.h
-CFILES = rend.cpp
+CFILES = semaphore.cpp rend.cpp
 
-all:
-	$(CC) $(CFLAGS) $(EXE) $(CFILES)
-clean:
+%.o: %.cpp
+	$(CC) -c -o $@ $< $(CFLAGS) $(DEBUGFLAGS)
+
+ALL: rend.o
+	$(CC) -o rend rend.o $(CFLAGS) $(DEBUGFLAGS)
+
+DEBUG: DEBUGFLAGS = -DDEBUG
+DEBUG: ALL
+
+CLEAN:
 	rm *.o
-debug:
-	$(CC) $(DEBUGFLAG) $(EXE) $(CFILES)

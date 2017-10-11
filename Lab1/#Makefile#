@@ -1,2 +1,0 @@
-sig.exe: Semaphore.cpp signal.cpp Semmaphore.h
-	g++ std=c++11 -pthread sig.exe Semaphore.cpp

@@ -1,10 +1,16 @@
-EXE = sig.o
 CC = g++
-CFLAGS = -std=c++11 -pthread -o
+CFLAGS = -std=c++11 -pthread
 HFILES= semaphore.h
-CFILES = signal.cpp
+CFILES = semaphore.cpp signal.cpp
 
-all:
-	$(CC) $(CFLAGS) $(EXE) $(CFILES)
-clean:
+%.o: %.cpp
+	$(CC) -c -o $@ $< $(CFLAGS) $(DEBUGFLAGS)
+
+ALL: signal.o
+	$(CC) -o signal signal.o $(CFLAGS) $(DEBUGFLAGS)
+
+DEBUG: DEBUGFLAGS = -DDEBUG
+DEBUG: ALL
+
+CLEAN:
 	rm *.o
