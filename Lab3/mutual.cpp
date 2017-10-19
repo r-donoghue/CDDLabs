@@ -14,31 +14,51 @@ Uses C++11 features such as mutex and condition variables to implement Semaphore
 
 */
 
- int count = 0;
+int count = 0;
 
-void taskOne(std::shared_ptr<Semaphore> a, std::shared_ptr<Semaphore> b){
-  b->Signal();
-  count += 1;
-  b->Wait();
-  a->Signal();
+/**< First Task, locks mutex and increments count, unlocks mutex  */
+void taskOne(std::shared_ptr<Semaphore> mtx){
+
+  std::cout << "Task one reached critical section\n";  
+  
+  mtx->Signal();
+
+	  /**< Critical Section  */
+
+	  std::cout << "Task one is incrementing count\n";
+	  count += 1;
+
+  mtx->Wait();
+  
+  
 }
-void taskTwo(std::shared_ptr<Semaphore> a, std::shared_ptr<Semaphore> b){
-  a->Wait();
-  b->Signal();
-  count += 1;
-  b->Wait();
+
+/**< Second Task, locks mutex and increments count, unlocks mutex  */
+void taskTwo(std::shared_ptr<Semaphore> mtx){
+
+  std::cout << "Task two reached critical section\n";
+  
+  mtx->Signal();
+
+	  /**< Critical Section  */
+
+	  std::cout << "Task two is incrementing count\n";
+	  count += 1;
+
+  mtx->Wait();
+  
+  
 }
 
 int main(void){
 
   std::thread threadOne, threadTwo;
-  std::shared_ptr<Semaphore> a( new Semaphore);
-  std::shared_ptr<Semaphore> b( new Semaphore);
+  std::shared_ptr<Semaphore> mtx( new Semaphore);
 
   /**< Launch the threads  */
 
-  threadOne=std::thread(taskTwo,a,b);
-  threadTwo=std::thread(taskOne,a,b);
+  threadOne=std::thread(taskTwo,mtx);
+  threadTwo=std::thread(taskOne,mtx);
 
   std::cout << "Launched from the main\n";
 

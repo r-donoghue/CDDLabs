@@ -1,13 +1,12 @@
 CC = g++
 CFLAGS = -std=c++11 -pthread
-HFILES= semaphore.h
-CFILES = semaphore.cpp signal.cpp
+CFILES = barrier.cpp
 
 %.o: %.cpp
 	$(CC) -c -o $@ $< $(CFLAGS) $(DEBUGFLAGS)
 
-ALL: barrier.o
-	$(CC) -o barrier barrier.o $(CFLAGS) $(DEBUGFLAGS)
+ALL: $(CFILES)
+	$(CC) -o barrier $(CFILES) $(CFLAGS) $(DEBUGFLAGS)
 
 DEBUG: DEBUGFLAGS = -DDEBUG
 DEBUG: ALL

@@ -20,28 +20,31 @@
 	  std::shared_ptr<Semaphore> turnstile( new Semaphore);
 	  std::shared_ptr<Semaphore> turnstile2( new Semaphore);
 	  int count = 0;
+	  int n = 6;
 	  /**< Launch the threads  */
 
 
-	  barrier.wait ()
-	  count += 1
-	  if count == n:
-		  turnstile2.wait ()
-		  turnstile.signal ()
-	  barrier.signal ()
+	  barrier->Signal();
+	  count += 1;
+	  if (count == n){
+		  turnstile2->Signal();
+		  turnstile->Wait();
+	  }
+	  barrier->Wait();
 
-	  turnstile.wait () # first turnstile
-	  turnstile.signal ()
+	  turnstile->Signal();
+	  turnstile->Wait();
 
-	  barrier.wait ()
-	  count -= 1
-	  if count == 0:
-	  	turnstile.wait ()
-	  	turnstile2.signal ()
-	  barrier.signal ()
+	  barrier->Signal();
+	  count -= 1;
+	  if (count == 0){
+	  	turnstile->Signal();
+	  	turnstile2->Wait();
+	  }
+	  barrier->Wait();
 
-	  turnstile2.wait ()
-	  turnstile2.signal ()
+	  turnstile2->Signal();
+	  turnstile2->Wait();
 
 	  return 0;
 	}
