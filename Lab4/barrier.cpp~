@@ -14,11 +14,10 @@
 
 	*/
 int count = 0;
-int loop = 0;
 	void task(std::shared_ptr<Semaphore> barrierA, std::shared_ptr<Semaphore> barrierB, std::shared_ptr<Semaphore> mtx, std::string name ){
 
 	  int n = 6;
-	  while(loop <= 2){
+	  
 	  /**< Threads enter until count equals number of threads  */
 	  mtx->Wait();
 		  
@@ -52,7 +51,6 @@ int loop = 0;
 		  if (count == 0){
 			std::cout << "Last thread exited,ending. \n";
 		  	barrierA->Wait();
-			loop++;
 		  	barrierB->Signal();
 		  }
 
@@ -60,8 +58,6 @@ int loop = 0;
 
 	  barrierB->Wait();
 	  barrierB->Signal();
-      
-      }
 	}
 	
 	int main(void){
