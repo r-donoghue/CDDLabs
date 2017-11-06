@@ -13,27 +13,35 @@
 	Uses C++11 features such as mutex and condition variables to 		implement Semaphore
 
 	*/
-	int count = 0;
-	int loop = 0;
+	int numThreads;
+	int loop;
+	int numRuns 
+
 	std::shared_ptr<Semaphore> mtx( new Semaphore(1));
 	std::shared_ptr<Semaphore> barrierA( new Semaphore(0));
 	std::shared_ptr<Semaphore> barrierB( new Semaphore(1));
+	
+	/**< Threads enter until numThreads equals number of threads  */
+	void setupBarrier(int a, int b, int c){
+		numThreads = a;
+		loop = b;
+		numRuns = c;
+	}
 
-	void setupBarrier(int n
 	void task(std::shared_ptr<Semaphore> barrierA, std::shared_ptr<Semaphore> barrierB, std::shared_ptr<Semaphore> mtx, std::string name ){
 
-		int n = 6;
-		while(loop <= 2){
-		/**< Threads enter until count equals number of threads  */
+		while(loop <= b){
+		
 		mtx->Wait();
 		  
-		/**< Critical Section  */
+		/**< Enter Critical Section  */
 
-		std::cout << name << " arrived. Count is " << count << ".\n";
-		count ++;
-		std::cout << name << " incremented count. Count is now " << count << ".\n";
+		std::cout << name << " arrived. Count is " << numThreads << ".\n";
+		numThreads ++;
+		std::cout << name << " incremented numThreads. Count is now " << numThreads << ".\n";
 
-		if (count == 6){
+		/**< Threads enter until numThreads equals number of threads  */
+		if (numThreads == n){
 			std::cout << "Last thread entered, opening barrier.\n";
 			barrierB->Wait();
 			barrierA->Signal();
@@ -45,16 +53,16 @@
 	  	barrierA->Wait();
 	  	barrierA->Signal();
 
-	  	/**< Threads exit, decrementing count until == 0  */
+	  	/**< Threads exit, decrementing numThreads until == 0  */
 	  	mtx->Wait();
 
 		/**< Critical Section  */
 
-		std::cout << name << " exiting.Count is " << count << ".\n";
-		count--;
-		std::cout << name << " decremented count.\n";
+		std::cout << name << " exiting.Count is " << numThreads << ".\n";
+		numThreads--;
+		std::cout << name << " decremented numThreads.\n";
 
-		if (count == 0){
+		if (numThreads == 0){
 			std::cout << "Last thread exited,ending. \n";
 		  	barrierA->Wait();
 			loop++;
